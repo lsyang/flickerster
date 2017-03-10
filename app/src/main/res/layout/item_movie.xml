@@ -25,6 +25,7 @@
         android:layout_toEndOf="@+id/ivMovieImage"
         android:layout_marginLeft="14dp"
         android:layout_marginStart="14dp"
+        android:textColor="@color/colorWhite"
         android:id="@+id/tvTitle"/>
 
     <TextView
@@ -32,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvOverview"
+        android:textColor="@color/colorWhite"
         android:layout_below="@+id/tvTitle"
         android:layout_alignLeft="@+id/tvTitle"
         android:layout_alignStart="@+id/tvTitle"/>

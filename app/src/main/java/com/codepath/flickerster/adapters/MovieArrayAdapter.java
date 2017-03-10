@@ -64,7 +64,10 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         viewHolder.overview.setText(movie.getOverview());
         viewHolder.title.setText(movie.getOriginalTitle());
         viewHolder.movieImage.setImageResource(0);
-        Picasso.with(getContext()).load(image_url).into(viewHolder.movieImage);
+
+        Picasso.with(getContext()).load(image_url).fit().centerCrop()
+                .placeholder(R.drawable.placeholder)
+                .into(viewHolder.movieImage);
         // return to view
         return convertView;
     }
