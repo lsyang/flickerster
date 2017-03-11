@@ -32,11 +32,21 @@ public class Movie {
         return rating;
     }
 
+    public Popularity getPopularity() {
+        return popularity;
+    }
+
+    public enum Popularity {
+        LOW, HIGH
+    }
+
     String posterPath;
     String backdropPath;
     String originalTitle;
     String overview;
+    Popularity popularity;
     double rating;
+    double popularityThreshold = 7.0;
 
     public Movie(JSONObject jsonObject) throws JSONException {
         this.posterPath = jsonObject.getString("poster_path");
@@ -44,6 +54,12 @@ public class Movie {
         this.originalTitle = jsonObject.getString("original_title");
         this.overview = jsonObject.getString("overview");
         this.rating = jsonObject.getDouble("vote_average");
+
+        if (this.rating > popularityThreshold) {
+            this.popularity = Popularity.HIGH;
+        } else {
+            this.popularity = Popularity.LOW;
+        }
     }
 
     public static ArrayList<Movie> fromJSONArray(JSONArray array) {
