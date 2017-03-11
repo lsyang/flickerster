@@ -28,6 +28,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         ImageView movieImage;
     }
 
+
     public MovieArrayAdapter(Context context, List<Movie>movies) {
         super(context, android.R.layout.simple_list_item_1, movies);
     }
@@ -53,21 +54,26 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        String image_url;
-        int orientation = getContext().getResources().getConfiguration().orientation;
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            image_url = movie.getBackdropPath();
-        } else {
-            image_url = movie.getPosterPath();
-        }
 
         viewHolder.overview.setText(movie.getOverview());
         viewHolder.title.setText(movie.getOriginalTitle());
         viewHolder.movieImage.setImageResource(0);
 
+        String image_url;
+        int placeholder;
+        int orientation = getContext().getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            image_url = movie.getBackdropPath();
+            placeholder = R.drawable.placeholder_landscape;
+        } else {
+            image_url = movie.getPosterPath();
+            placeholder = R.drawable.placeholder;
+        }
+
         Picasso.with(getContext()).load(image_url).fit().centerCrop()
-                .placeholder(R.drawable.placeholder)
+                .placeholder(placeholder)
                 .into(viewHolder.movieImage);
+
         // return to view
         return convertView;
     }
