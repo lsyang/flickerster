@@ -17,16 +17,24 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by lsyang on 3/9/17.
  */
 
 public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
-    private static class ViewHolder {
-        TextView title;
-        TextView overview;
-        ImageView movieImage;
+    static class ViewHolder {
+        @BindView(R.id.tvTitle) TextView title;
+        @BindView(R.id.tvOverview) TextView overview;
+        @BindView(R.id.ivMovieImage) ImageView movieImage;
+
+        public ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
+
     }
 
 
@@ -55,12 +63,9 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         // check the existing view being used
         if (convertView == null) {
 
-            viewHolder = new ViewHolder();
             convertView = getInflatedLayoutForType(type);
+            viewHolder = new ViewHolder(convertView);
 
-            viewHolder.title = (TextView) convertView.findViewById(R.id.tvTitle);
-            viewHolder.overview = (TextView) convertView.findViewById(R.id.tvOverview);
-            viewHolder.movieImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
             convertView.setTag(viewHolder);
 
         } else {

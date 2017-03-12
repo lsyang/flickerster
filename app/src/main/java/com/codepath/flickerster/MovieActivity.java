@@ -16,23 +16,26 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 import static com.codepath.flickerster.models.Movie.fromJSONArray;
 
 public class MovieActivity extends AppCompatActivity {
 
+    @BindView(R.id.lvMovies) ListView lvItems;
+
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
-    ListView lvItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+        ButterKnife.bind(this);
 
         movies = new ArrayList<>();
-        lvItems = (ListView) findViewById(R.id.lvMovies);
         movieAdapter = new MovieArrayAdapter(this, movies);
         lvItems.setAdapter(movieAdapter);
 
