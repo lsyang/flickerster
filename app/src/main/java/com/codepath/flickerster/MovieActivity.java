@@ -1,12 +1,16 @@
 package com.codepath.flickerster;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.codepath.flickerster.adapters.MovieArrayAdapter;
 import com.codepath.flickerster.models.Movie;
+import com.codepath.flickerster.models.Movie.Popularity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
@@ -29,6 +33,7 @@ public class MovieActivity extends AppCompatActivity {
     ArrayList<Movie> movies;
     MovieArrayAdapter movieAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +43,30 @@ public class MovieActivity extends AppCompatActivity {
         movies = new ArrayList<>();
         movieAdapter = new MovieArrayAdapter(this, movies);
         lvItems.setAdapter(movieAdapter);
+
+        lvItems.setOnItemClickListener(new android.widget.AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Movie movie = movies.get(position);
+                String movieId = movie.getId();
+                Popularity popularity = movie.getPopularity();
+                if (popularity == Popularity.HIGH) {
+                    Intent intent = new Intent(MovieActivity.this, QuickPlayActivity.class);
+                    intent.putExtra("id", movieId);
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(MovieActivity.this, DetailActivity.class);
+                    intent.putExtra("title", movie.getOriginalTitle());
+                    intent.putExtra("id", movieId);
+                    intent.putExtra("overview", movie.getOverview());
+                    intent.putExtra("rating", movie.getRating());
+                    intent.putExtra("preview", movie.getBackdropPath());
+                    startActivity(intent);
+
+                }
+
+            }
+        });
 
         String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
         AsyncHttpClient client = new AsyncHttpClient();
